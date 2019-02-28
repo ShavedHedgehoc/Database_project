@@ -3,4 +3,4 @@ git add --all
 git commit -m ""
 
 [git remote add origin <link>] - один раз
-gti push origin master
+git push origin master
