@@ -1,0 +1,64 @@
+<style type="text/css">
+  TABLE {
+    border-collapse:collapse;
+  }
+  TH {
+    background:#fc0;
+  }
+  TD {
+    background:#fff;
+    text-align:center;
+  }
+  TH, TD {
+    border: 1px solid black;
+    padding-right: 10px;
+  }
+</style>
+<h3>
+  ЗАГОЛОВОК ТАБЛИЦЫ
+</h3>
+
+<table>
+
+  <th>ДАТА</th>
+  <th>АРТИКУЛ</th>
+  <th>ПАРТИЯ</th>
+  <th>ПЛАН</th>
+  <th>№ апп.</th>
+  <th>№ емкости</th>
+  <th>№ конв.</th>
+  <th>предп. проба</th>
+  <th>преднп. фас.</th>
+  <th>ок. проба</th>
+  <th>доп. подкл.</th>
+  <th>проба с конв.</th>
+  <th>доп. фасовка.</th>
+  <th>Факт. фасовка</th>
+  <th>Говно1</th>
+  <th>Говно2</th>
+  <th>Говно3</th>
+  <th>Говно4</th>
+  <th>Говно5</th>
+
+
+
+  {% for i in all_records %}
+    <tr>
+      <td>{{i.t_Date}}</td>
+      <td>{{i.t_Art}}</td>
+      <td>{{i.t_Batch}}</td>
+      <td>{{i.t_Plan}}</td>
+      <td>{{i.t_App}}</td>
+      <td>{{i.calc}}</td>
+
+    </tr>
+  {% endfor %}
+</table>
+
+<br>
+<br>
+<br>
+
+<form action="." method="GET">
+  <input type="submit" name="mybtn" value="Загрузка сводки" >
+</form>

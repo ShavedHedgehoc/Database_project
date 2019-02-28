@@ -1,0 +1,6 @@
+cd "X:\Рабочая папка\ГСС\МЮС\Django project\dataproject"
+git add --all
+git commit -m ""
+
+[git remote add origin <link>] - один раз
+gti push origin master
