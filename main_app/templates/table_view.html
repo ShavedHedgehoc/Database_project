@@ -1,0 +1,72 @@
+<style type="text/css">
+  TABLE {
+    border-collapse:collapse;
+  }
+  TH {
+    background:#fc0;
+  }
+  TD {
+    background:#fff;
+    text-align:center;
+  }
+  TH, TD {
+    border: 1px solid black;
+    padding-right: 10px;
+  }
+</style>
+<h3>
+  ЗАГОЛОВОК ТАБЛИЦЫ
+</h3>
+
+<table>
+
+  <th>ДАТА</th>
+  <th>АРТИКУЛ</th>
+  <th>ПАРТИЯ</th>
+  <th>ПЛАН</th>
+  <th>№ апп.</th>
+  <th>№ емкости</th>
+  <th>№ конв.</th>
+  <th>предп. проба</th>
+  <th>преднп. фас.</th>
+  <th>ок. проба</th>
+  <th>доп. подкл.</th>
+  <th>проба с конв.</th>
+  <th>доп. фасовка.</th>
+  <th>Факт. фасовка</th>
+  <th>Говно1</th>
+  <th>Говно2</th>
+  <th>Говно3</th>
+  <th>Говно4</th>
+  <th>Говно5</th>
+
+
+
+  {% for i in records %}
+    <tr>
+      <td>{{i.date}}</td>
+      <td>{{i.marking}}</td>
+      <td>{{i.batch}}</td>
+      <td>{{i.plan}}</td>
+      <td>{{i.p_apparatus}}</td>
+      <td>{{i.p_container}}</td>
+      <td>{{i.p_conveyor}}</td>
+      <td>{{i.time_probe}}</td>
+      <td>{{i.time_start}}</td>
+      <td>{{i.app_test_time}}</td>
+      <td>{{i.admission_plug_time}}</td>
+      <td>{{i.adm_prod_time}}</td>
+      <td>{{i.prod_fact_time}}</td>
+      
+
+    </tr>
+  {% endfor %}
+</table>
+{{query_date}}
+<br>
+<br>
+<br>
+
+<form action="." method="GET">
+  <input type="submit" name="mybtn" value="Загрузка сводки" >
+</form>

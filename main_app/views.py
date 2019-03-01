@@ -1,5 +1,17 @@
 from django.shortcuts import render
+from .models import production
+from django.template import RequestContext
 
+
+def index(request):    
+    query_date="March 1, 2019"
+    ##queryset=('SELECT * FROM main_app_boil WHERE date =%s' , [query_date])
+    ##queryset='SELECT * FROM main_app_boil'
+    ##records=boil.objects.raw('SELECT * FROM main_app_boil WHERE date =%s' , [query_date])
+    ##records=boil.objects.raw('SELECT * FROM main_app_boil')
+    records=production.objects.all()
+
+    return render(request, 'table_view.html', locals())
 # Create your views here.
 
 
