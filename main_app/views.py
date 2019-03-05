@@ -1,20 +1,28 @@
 from django.shortcuts import render
 from .models import production
 from django.template import RequestContext
+import datetime
 
 
-def index(request):    
-    query_date="March 1, 2019"
-    ##queryset=('SELECT * FROM main_app_boil WHERE date =%s' , [query_date])
-    ##queryset='SELECT * FROM main_app_boil'
-    ##records=boil.objects.raw('SELECT * FROM main_app_boil WHERE date =%s' , [query_date])
-    ##records=boil.objects.raw('SELECT * FROM main_app_boil')
-    records=production.objects.all()
-
+def index(request):
+    now=datetime.datetime.now()    
+    ###query_date=now.strftime("%d-%m-%Y")
+    query_date=now.strftime("%Y-%m-%d")    
+    records=production.objects.all().filter(date=query_date)
     return render(request, 'table_view.html', locals())
-# Create your views here.
 
 
+def test_page(request):
+    fff=request.GET.get('count')
+    print(fff)
+    return render(request, 'test_page.html', locals())
+
+""" def table_renew(request):
+    now=datetime.datetime.now()
+    query_date=now.strftime("%Y-%m-%d")    
+    records=production.objects.all().filter(date=query_date)
+    return return render(request, 'table_renew.html', locals())
+ """
 ## Кусок с запросом к серверу терминалов
 
 ##from django.shortcuts import render

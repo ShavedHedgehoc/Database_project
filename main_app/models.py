@@ -48,10 +48,10 @@ class l_admission(models.Model):
     def __str__(self):
         return str(self.date)+" "+self.b_batch.batch_name """
 
-class lab_admission(models.Model):
+""" class lab_admission(models.Model):
     admission_batch=models.ForeignKey(batch, on_delete=models.CASCADE)
     admission_time=models.TimeField()
-
+ """
 class production(models.Model):
     date=models.DateField()
     marking=models.CharField(max_length=50)
@@ -61,10 +61,10 @@ class production(models.Model):
     p_apparatus=models.ForeignKey(apparatus, on_delete=models.CASCADE)
     p_container=models.ForeignKey(container, on_delete=models.CASCADE)
     p_conveyor=models.ForeignKey(conveyor, on_delete=models.CASCADE)
-    time_probe=models.TimeField()
-    time_start=models.TimeField()
-    app_test_time=models.TimeField()
-    admission_plug_time=models.TimeField()
-    conv_probe_time=models.TimeField()
-    adm_prod_time=models.TimeField()
-    prod_fact_time=models.TimeField()
+    time_probe=models.TimeField(blank=True, null=True)
+    time_start=models.TimeField(blank=True, null=True)
+    app_test_time=models.TimeField(blank=True, null=True)
+    admission_plug_time=models.TimeField(blank=True, null=True)
+    conv_probe_time=models.TimeField(blank=True, null=True)
+    adm_prod_time=models.TimeField(blank=True, null=True)
+    prod_fact_time=models.TimeField(blank=True, null=True)

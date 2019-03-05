@@ -15,7 +15,7 @@
   }
 </style>
 <h3>
-  ЗАГОЛОВОК ТАБЛИЦЫ
+  СВОДКА НА {{query_date}}
 </h3>
 
 <table>
@@ -27,7 +27,7 @@
   <th>№ апп.</th>
   <th>№ емкости</th>
   <th>№ конв.</th>
-  <th>предп. проба</th>
+  <!-- <th>предп. проба</th>
   <th>преднп. фас.</th>
   <th>ок. проба</th>
   <th>доп. подкл.</th>
@@ -38,35 +38,37 @@
   <th>Говно2</th>
   <th>Говно3</th>
   <th>Говно4</th>
-  <th>Говно5</th>
+  <th>Говно5</th> -->
 
 
 
   {% for i in records %}
     <tr>
-      <td>{{i.date}}</td>
+      <td>{{i.date.day}}-{{i.date.month}}-{{i.date.year}}</td>
       <td>{{i.marking}}</td>
       <td>{{i.batch}}</td>
       <td>{{i.plan}}</td>
       <td>{{i.p_apparatus}}</td>
       <td>{{i.p_container}}</td>
       <td>{{i.p_conveyor}}</td>
-      <td>{{i.time_probe}}</td>
+      <!-- <td>{{i.time_probe}}</td>
       <td>{{i.time_start}}</td>
       <td>{{i.app_test_time}}</td>
       <td>{{i.admission_plug_time}}</td>
       <td>{{i.adm_prod_time}}</td>
-      <td>{{i.prod_fact_time}}</td>
+      <td>{{i.prod_fact_time}}</td> -->
       
 
     </tr>
   {% endfor %}
 </table>
-{{query_date}}
-<br>
-<br>
-<br>
 
-<form action="." method="GET">
+<br>
+<br>
+<br>
+<!-- {%block add_script %}
+  <script src={% static "main_app/script.js" %}></script>
+{% endblock %} -->
+<!-- <form action="." method="GET">
   <input type="submit" name="mybtn" value="Загрузка сводки" >
-</form>
+</form> -->

@@ -17,6 +17,8 @@ from django.conf.urls import url
 from . import views
 ##
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    ##url(r'^$', views.index, name='index'),
+    url(r'^$', views.test_page, name='test_page'),
+    ##url(r'^2$', views.test_page2, name='test_page2'),
 ##    url(r'^upload/$', views.upload, name='upload'),
 ]
