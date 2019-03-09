@@ -1,0 +1,23 @@
+<form>
+    <div>
+      <label>Номер:</label>
+      <input type="text" id="phone" placeholder="Введите номер телефона">
+    </div>
+  </form>
+
+<div class="#inc_page">
+    {% include 'my_div.html' %}
+</div>
+<script>
+    function refresh(){
+    $.ajax({
+        url: {% url 'my_div' %},
+        success: function(data){
+            $('#inc_page').html(data);
+        }
+    });
+};
+$(document).ready(function ($) {
+    refresh();
+    var int = setInterval("refresh()", 3000);
+</script>

@@ -5,17 +5,22 @@ import datetime
 
 
 def index(request):
+    # now=datetime.datetime.now()    
+    # query_date=now.strftime("%Y-%m-%d")    
+    # records=production.objects.all().filter(date=query_date)
+    return render(request, 'test_page.html', locals())
+
+def table_view(request):
     now=datetime.datetime.now()    
-    ###query_date=now.strftime("%d-%m-%Y")
     query_date=now.strftime("%Y-%m-%d")    
     records=production.objects.all().filter(date=query_date)
     return render(request, 'table_view.html', locals())
 
-
 def test_page(request):
-    fff=request.GET.get('count')
-    print(fff)
+    # fff=request.GET.get('count')
+    # print(fff)
     return render(request, 'test_page.html', locals())
+
 
 """ def table_renew(request):
     now=datetime.datetime.now()

@@ -1,10 +1,16 @@
+{% load staticfiles %}
+
 <style type="text/css">
   body{background-color: #FFFFFF;}
   h1{background-color: #FFFFFF;}
   </style>
 <h1>Заголовок</h1>
 
-<div>
-  <h2>Это встроенная страница</h2>
-  {% include "test_page2.html" %}
+<div id="table">
+
 </div>
+
+{%block add_script %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src={% static "main_app/script2.js" %}></script>
+{% endblock %}

@@ -62,6 +62,11 @@ for (p in my_arr){
     document.write("}</br>");    
 }
 
+i=0;
+var timerId = setInterval(function(){
+    i++;
+    document.write("Прошло: " + i +" секунд");        
+    }, 1000);
 /* var count=30;
     setInterval(function() {
         count++;
