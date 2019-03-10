@@ -3,12 +3,18 @@
 <style type="text/css">
   body{background-color: #FFFFFF;}
   h1{background-color: #FFFFFF;}
-  </style>
-<h1>Заголовок</h1>
+</style>
 
-<div id="table">
+<h1>
+  <div style="display:inline-block;">Сводка на: </div>
+  <div id="show_date" style="display:inline-block;"></div>
+</h1>
 
-</div>
+<div id="table"></div>
+
+<div style="display:inline-block;">Обновление через:</div>
+<div id="message" style="display:inline-block;"></div>
+<div style="display:inline-block;"> секунд ...</div>
 
 {%block add_script %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

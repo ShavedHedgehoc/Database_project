@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import production
+from .models import production, lab_adm2
 from django.template import RequestContext
 import datetime
 
@@ -13,8 +13,13 @@ def index(request):
 def table_view(request):
     now=datetime.datetime.now()    
     query_date=now.strftime("%Y-%m-%d")    
-    records=production.objects.all().filter(date=query_date)
-    return render(request, 'table_view.html', locals())
+    # records=production.objects.all().filter(date=query_date)
+    # view_fields=['date', 'marking', 'batch', 'plan',
+    # 'p_apparatus', 'p_container','p_conveyor','lab_adm2__admission_time', 'lab_adm2__lab_user__username']
+    # records=production.objects.values_list(*view_fields, named=True)
+    #records=production.objects.select_related('lab_adm2')
+    records=production.objects.select_related('lab_adm2').filter(date=query_date)
+    return render(request, 'table_view.html', {'records':records})
 
 def test_page(request):
     # fff=request.GET.get('count')
@@ -22,12 +27,7 @@ def test_page(request):
     return render(request, 'test_page.html', locals())
 
 
-""" def table_renew(request):
-    now=datetime.datetime.now()
-    query_date=now.strftime("%Y-%m-%d")    
-    records=production.objects.all().filter(date=query_date)
-    return return render(request, 'table_renew.html', locals())
- """
+
 ## Кусок с запросом к серверу терминалов
 
 ##from django.shortcuts import render

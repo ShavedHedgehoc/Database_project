@@ -9,14 +9,16 @@
     background:#fff;
     text-align:center;
   }
+  TD.inner_table {
+    background:greenyellow;
+    text-align:center;
+  }
   TH, TD {
     border: 1px solid black;
     padding-right: 10px;
   }
+  
 </style>
-<h3>
-  СВОДКА НА {{query_date}}
-</h3>
 
 <table>
 
@@ -27,17 +29,25 @@
   <th>№ апп.</th>
   <th>№ емкости</th>
   <th>№ конв.</th>
+  <th>Допуск</th>
 
 
   {% for i in records %}
     <tr>
-      <td>{{i.date.day}}-{{i.date.month}}-{{i.date.year}}</td>
+      <td>{{i.date.day}}/{{i.date.month}}/{{i.date.year}}</td>
       <td>{{i.marking}}</td>
       <td>{{i.batch}}</td>
       <td>{{i.plan}}</td>
       <td>{{i.p_apparatus}}</td>
       <td>{{i.p_container}}</td>
       <td>{{i.p_conveyor}}</td>
+      
+
+      
+        <td {% if i.lab_adm2.admission_time %}class="inner_table"{% endif %}>
+          <div>{{i.lab_adm2.admission_time}}</div>
+          <div>{{i.lab_adm2.lab_user.first_name}} {{i.lab_adm2.lab_user.last_name}} </div>
+        </td>
       
 
     </tr>
