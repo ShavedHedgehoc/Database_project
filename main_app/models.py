@@ -58,5 +58,10 @@ class lab_adm2(models.Model):
     prod_row=models.OneToOneField(production, on_delete=models.CASCADE)
     admission_time=models.TimeField()
     lab_user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+class plug_adm(models.Model):
+    prod_row=models.OneToOneField(production, on_delete=models.CASCADE)
+    admission_time=models.TimeField(auto_now_add=True, blank=True)
+    lab_user=models.ForeignKey(User, on_delete=models.CASCADE)
  
     

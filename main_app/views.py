@@ -1,7 +1,18 @@
 from django.shortcuts import render
-from .models import production, lab_adm2
+from .models import production, lab_adm2, plug_adm
 from django.template import RequestContext
+from django.http import HttpResponseRedirect
 import datetime
+
+def add_adm(request, id):    
+    new_adm=plug_adm()
+    new_adm.prod_row=production.objects.get(id=id)
+    new_adm.lab_user=request.user
+    new_adm.save()
+    # ddd=id
+    # uuu=request.user
+    # return render(request, 'add_adm.html', locals())
+    return HttpResponseRedirect("/")
 
 
 def index(request):
@@ -17,8 +28,8 @@ def table_view(request):
     # view_fields=['date', 'marking', 'batch', 'plan',
     # 'p_apparatus', 'p_container','p_conveyor','lab_adm2__admission_time', 'lab_adm2__lab_user__username']
     # records=production.objects.values_list(*view_fields, named=True)
-    #records=production.objects.select_related('lab_adm2')
-    records=production.objects.select_related('lab_adm2').filter(date=query_date)
+    records=production.objects.select_related('plug_adm')
+    # records=production.objects.select_related('lab_adm2').filter(date=query_date)
     return render(request, 'table_view.html', {'records':records})
 
 def test_page(request):
