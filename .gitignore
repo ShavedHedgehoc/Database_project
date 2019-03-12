@@ -1,5 +1,4 @@
 *.pyc
 _pycahe_
 venv
-db.sqlite3
 

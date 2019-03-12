@@ -14,6 +14,10 @@
     text-align:center;
     font-size: xx-small;
   }
+  TH.small_header{
+    font-size: x-small;
+    word-break: break-all;
+  }
   TH, TD {
     border: 1px solid black;
     padding-right: 0px;
@@ -21,17 +25,10 @@
   
 </style>
 
-<table width='100%'>
-
-  <th>ДАТА</th>
-  <th>АРТИКУЛ</th>
-  <th>ПАРТИЯ</th>
-  <th>ПЛАН</th>
-  <th>№ апп.</th>
-  <th>№ емкости</th>
-  <th>№ конв.</th>
-  <th>Допуск</th>
-
+<table width='100%'>  
+  {% for j in headers %}
+    <th {% if j|length > 25 %} class="small_header"{% endif %}>{{j}}</th>
+  {% endfor %}
 
   {% for i in records %}
     <tr>
@@ -42,18 +39,14 @@
       <td>{{i.p_apparatus}}</td>
       <td>{{i.p_container}}</td>
       <td>{{i.p_conveyor}}</td>
-      <td {% if i.plug_adm.admission_time %}class="inner_table"{% endif %}>
-        <div>{{i.plug_adm.admission_time}}</div>
-        <div>{{i.plug_adm.lab_user.first_name}} {{i.plug_adm.lab_user.last_name}} </div>
-      </td>
-      <!-- <td><a href="add_adm/{{i.id}}">Get id</a></td> -->
-      <td><form action="add_adm/{{i.id}}"><input type=submit value="adm" style="width:100%"></form></td>
+      <!-- <td>{{i.suppose_time.supp_app_test_time}}</td> -->
+      <!-- <td>{{i.suppose_time.supp_prod_adm_time}}</td> -->
 
+      <td {% if i.app_test_time.fix_time %}class="inner_table"{% endif %}>
+        <div>{{i.app_test_time.fix_time}}</div>
+        <div>{{i.app_test_time.fix_user.first_name}} {{i.app_test_time.fix_user.last_name}} </div>
+      </td>      
+      <td><form action="add_adm/{{i.id}}"><input type=submit value="adm" style="width:100%"></form></td>
     </tr>
   {% endfor %}
 </table>
-
-<br>
-<br>
-<br>
-

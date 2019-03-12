@@ -4,64 +4,95 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class apparatus(models.Model): # Экземпляр справочника аппаратов
-    app_number=models.CharField(max_length=6)
+
+# Справочники
+
+class Apparatus(models.Model): # Экземпляр справочника аппаратов
+    app_number=models.CharField(max_length=6, unique=True)
     app_desc=models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.app_number
 
-class conveyor(models.Model): # Экземпляр справочника конвейеров
-    conv_number=models.CharField(max_length=6)
+class Conveyor(models.Model): # Экземпляр справочника конвейеров
+    conv_number=models.CharField(max_length=6, unique=True)
     conv_desc=models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.conv_number
 
-class container(models.Model): # Экземпляр справочника емкостей
-    cont_number=models.CharField(max_length=6)
+class Container(models.Model): # Экземпляр справочника емкостей
+    cont_number=models.CharField(max_length=10, unique=True)
     cont_desc=models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.cont_number
 
-class batch(models.Model):
-    batch_name=models.CharField(max_length=50)
-    marking=models.CharField(max_length=50)
+class Batch(models.Model): # Экземпляр справочника партий
+    batch_name=models.CharField(max_length=50, unique=True)    
     
     def __str__(self):
-        return str(self.batch_name)+" "+self.marking
+        return str(self.batch_name)
 
-
-class production(models.Model):
-    date=models.DateField()
-    marking=models.CharField(max_length=50)
-    batch=models.CharField(max_length=50)
-    cancelled=models.BooleanField(default=False)
-    plan=models.IntegerField(default=10000)
-    p_apparatus=models.ForeignKey(apparatus, on_delete=models.CASCADE)
-    p_container=models.ForeignKey(container, on_delete=models.CASCADE)
-    p_conveyor=models.ForeignKey(conveyor, on_delete=models.CASCADE)
-    # time_probe=models.TimeField(blank=True, null=True)
-    # time_start=models.TimeField(blank=True, null=True)
-    # app_test_time=models.TimeField(blank=True, null=True)
-    # admission_plug_time=models.TimeField(blank=True, null=True)
-    # conv_probe_time=models.TimeField(blank=True, null=True)
-    # adm_prod_time=models.TimeField(blank=True, null=True)
-    # prod_fact_time=models.TimeField(blank=True, null=True)
+class Marking(models.Model): # Экземпляр справочника артикулов
+    marking_name=models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return str(self.date)+" "+self.batch+ " "+self.marking
+        return str(self.marking_name)
 
 
-class lab_adm2(models.Model):
-    prod_row=models.OneToOneField(production, on_delete=models.CASCADE)
-    admission_time=models.TimeField()
-    lab_user=models.ForeignKey(User, on_delete=models.CASCADE)
+# Таблицы
 
-class plug_adm(models.Model):
-    prod_row=models.OneToOneField(production, on_delete=models.CASCADE)
-    admission_time=models.TimeField(auto_now_add=True, blank=True)
-    lab_user=models.ForeignKey(User, on_delete=models.CASCADE)
- 
+class Production(models.Model): # Экземпляр строки таблицы сводки
+    date=models.DateField()
+    marking=models.ForeignKey(Marking, on_delete=models.CASCADE)
+    batch=models.ForeignKey(Batch, on_delete=models.CASCADE)
+    cancelled=models.BooleanField(default=False)
+    plan=models.IntegerField(default=10000)
+    p_apparatus=models.ForeignKey(Apparatus, on_delete=models.CASCADE)
+    p_container=models.ForeignKey(Container, on_delete=models.CASCADE)
+    p_conveyor=models.ForeignKey(Conveyor, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return str(self.date)+" "+str(self.batch)+ " "+str(self.marking)
+
+class Suppose_times(models.Model): # Экземпляр строки таблицы предполагаемых событий
+    prod_row=models.OneToOneField(Production, on_delete=models.CASCADE)
+    supp_app_test_time=models.TimeField(blank=True)
+    supp_prod_adm_time=models.TimeField(blank=True)
+
+    def __str__(self):
+        return str(self.prod_row)+" "+str(self.supp_app_test_time)+ " "+str(self.supp_prod_adm_time)
+
+class App_test_time(models.Model): # Экземпляр строки таблицы пробы из аппарата
+    prod_row=models.OneToOneField(Production, on_delete=models.CASCADE)
+    fix_time=models.TimeField(auto_now_add=True, blank=True)
+    fix_user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.prod_row)+" "+str(self.fix_time)+ " "+str(self.fix_user)
+
+class Prod_adm_time(models.Model): # Экземпляр строки таблицы допуска на фасовку
+    prod_row=models.OneToOneField(Production, on_delete=models.CASCADE)
+    fix_time=models.TimeField(auto_now_add=True, blank=True)
+    fix_user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.prod_row)+" "+str(self.fix_time)+ " "+str(self.fix_user)
+
+class Conv_test_time(models.Model): # Экземпляр строки таблицы пробы с конвейера
+    prod_row=models.OneToOneField(Production, on_delete=models.CASCADE)
+    fix_time=models.TimeField(auto_now_add=True, blank=True)
+    fix_user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.prod_row)+" "+str(self.fix_time)+ " "+str(self.fix_user)
+
+class Plug_adm_time(models.Model): # Экземпляр строки таблицы допуска на подключение
+    prod_row=models.OneToOneField(Production, on_delete=models.CASCADE)
+    fix_time=models.TimeField(auto_now_add=True, blank=True)
+    fix_user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.prod_row)+" "+str(self.fix_time)+ " "+str(self.fix_user)
     
