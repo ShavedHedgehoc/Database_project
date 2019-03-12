@@ -23,14 +23,14 @@ def index(request):
 
 def table_view(request):
     now=datetime.datetime.now()    
-    query_date=now.strftime("%Y-%m-%d")    
-    # records=production.objects.all().filter(date=query_date)
-    # view_fields=['date', 'marking', 'batch', 'plan',
-    # 'p_apparatus', 'p_container','p_conveyor','lab_adm2__admission_time', 'lab_adm2__lab_user__username']
-    # records=production.objects.values_list(*view_fields, named=True)
+    query_date=now.strftime("%Y-%m-%d")  
+    headers=['Дата фасовки','Артикул','№ парт.', 'План','№ аппар.','№ емкости',
+    '№ конв.','Время 1','Время 2','Проба из аппарата','Допуск на подключение',
+    'Проба с конвейера','Допуск на фасовку','Начало фасовки'
+    ]  
     records=production.objects.select_related('plug_adm')
     # records=production.objects.select_related('lab_adm2').filter(date=query_date)
-    return render(request, 'table_view.html', {'records':records})
+    return render(request, 'table_view.html', {'records':records, 'headers':headers})
 
 def test_page(request):
     # fff=request.GET.get('count')
