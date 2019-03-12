@@ -7,6 +7,23 @@ from django.contrib.auth.models import User
 
 # Справочники
 
+
+class Refer(models.Model):
+    ref_name=models.CharField(max_length=10, unique=True)
+    ref_descr=models.CharField(max_length=100, blank=True)
+
+    class Meta:
+        abstract=True
+        ordering = ['ref_name']
+    
+    def __str__(self):
+        return self.app_number
+    
+
+class Apparatus2(models.Refer):
+    pass
+
+
 class Apparatus(models.Model): # Экземпляр справочника аппаратов
     app_number=models.CharField(max_length=6, unique=True)
     app_desc=models.CharField(max_length=100, blank=True)
