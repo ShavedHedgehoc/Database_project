@@ -1,3 +1,4 @@
+123456
 # class lab_adm2(models.Model):
 #     prod_row=models.OneToOneField(Production, on_delete=models.CASCADE)
 #     admission_time=models.TimeField()
