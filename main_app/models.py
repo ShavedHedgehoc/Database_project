@@ -8,20 +8,92 @@ from django.contrib.auth.models import User
 # Справочники
 
 
-class Refer(models.Model):
-    ref_name=models.CharField(max_length=10, unique=True)
+class Refer_descr(models.Model):
+    ref_d_name=models.CharField(max_length=10, unique=True)
     ref_descr=models.CharField(max_length=100, blank=True)
 
+    class Meta:
+        abstract=True
+        ordering = ['ref_d_name']
+    
+    def __str__(self):
+        return self.ref_d_name
+    
+
+class Apparatus2(Refer_descr):
+    pass
+
+
+class Conveyor2(Refer_descr):
+    pass
+
+
+class Container2(Refer_descr):
+    pass
+
+
+class Refer(models.Model):
+    ref_name=models.CharField(max_length=10, unique=True)
+    
     class Meta:
         abstract=True
         ordering = ['ref_name']
     
     def __str__(self):
-        return self.app_number
-    
+        return self.ref_name
 
-class Apparatus2(models.Refer):
+
+class Batch2(Refer):
     pass
+
+class Marking2(Refer):
+    pass
+
+
+class Production2(models.Model): # Экземпляр строки таблицы сводки
+    date=models.DateField()
+    marking=models.ForeignKey(Marking2, on_delete=models.CASCADE)
+    batch=models.ForeignKey(Batch2, on_delete=models.CASCADE)
+    cancelled=models.BooleanField(default=False)
+    plan=models.IntegerField(default=10000)
+    p_apparatus=models.ForeignKey(Apparatus2, on_delete=models.CASCADE)
+    p_container=models.ForeignKey(Container2, on_delete=models.CASCADE)
+    p_conveyor=models.ForeignKey(Conveyor2, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return str(self.date)+" "+str(self.batch)+ " "+str(self.marking)
+
+class Fix_time(models.Model):
+    fix_row=models.OneToOneField(Production2, on_delete=models.CASCADE)
+    fix_time=models.TimeField(auto_now_add=True) #, blank=True)
+    fix_user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        abstract=True
+
+    def __str__(self):
+        return "["+str(self.fix_row)+"] ("+str(self.fix_time)+") "+str(self.fix_user)
+
+
+class App_test_time2(Fix_time):
+    pass
+
+class Prod_adm_time2(Fix_time):
+    pass
+
+class Conv_test_time2(Fix_time):
+    pass
+
+
+class Plug_adm_time2(Fix_time):
+    pass
+
+
+
+
+
+
+
 
 
 class Apparatus(models.Model): # Экземпляр справочника аппаратов

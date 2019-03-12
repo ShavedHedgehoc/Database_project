@@ -1,0 +1,81 @@
+<style type="text/css">
+  TABLE {
+    border-collapse:collapse;
+  }
+  TH {
+    background:#fc0;
+  }
+  TD {
+    background:#fff;
+    text-align:center;
+  }
+  TD.inner_table {
+    background:greenyellow;
+    text-align:center;
+    font-size: xx-small;
+  }
+  TH.small_header{
+    font-size: x-small;
+    word-break: break-all;
+  }
+  TH, TD {
+    border: 1px solid black;
+    padding-right: 0px;
+  }
+  
+</style>
+
+<table width='100%'>  
+  {% for j in headers %}
+    <th {% if j|length > 25 %} class="small_header"{% endif %}>{{j}}</th>
+  {% endfor %}
+
+  {% for i in records %}
+    <tr>
+      <td>{{i.date.day}}/{{i.date.month}}/{{i.date.year}}</td>
+      <td>{{i.marking}}</td>
+      <td>{{i.batch}}</td>
+      <td>{{i.plan}}</td>
+      <td>{{i.p_apparatus}}</td>
+      <td>{{i.p_container}}</td>
+      <td>{{i.p_conveyor}}</td>
+      <td>
+          {% if i.app_test_time2.fix_time %}
+            <form name="app_edit" method="POST" action="edit_adm/app/{{i.id}}">
+              {% csrf_token %}
+              <button type=submit>
+                  {{i.app_test_time2.fix_time}} <br>
+                  {{i.app_test_time2.fix_user.first_name}} {{i.app_test_time2.fix_user.last_name}}
+              </button>            
+            </form>
+          {% else %}
+            <form name="app_add" method="POST" action="add_adm/app/{{i.id}}">
+              {% csrf_token %}
+              <button type=submit>
+                  "Зафиксировать время"
+              </button>               
+            </form>
+          {% endif %}
+      </td>
+      <td>
+        {% if i.plug_adm_time2.fix_time %}
+          <form name="plug_edit" method="POST" action="edit_adm/plug/{{i.id}}">
+            {% csrf_token %}
+            <button type=submit>
+                {{i.plug_adm_time2.fix_time}} <br>
+                {{i.plug_adm_time2.fix_user.first_name}} {{i.plug_adm_time2.fix_user.last_name}}
+            </button>            
+          </form>
+        {% else %}
+          <form name="plug_add" method="POST" action="add_adm/plug/{{i.id}}">
+            {% csrf_token %}
+            <button type=submit>
+                "Зафиксировать время"
+            </button>               
+          </form>
+        {% endif %}
+    </td>
+    
+    </tr>
+  {% endfor %}
+</table>
