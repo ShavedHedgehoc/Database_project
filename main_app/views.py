@@ -1,12 +1,16 @@
+import datetime
+
 from django.shortcuts import render
-from .models import Production, App_test_time, Conv_test_time, Plug_adm_time, Prod_adm_time
-from .models import Suppose_times
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-import datetime
+
+from .models import Production, App_test_time, Conv_test_time
+from .models import Suppose_times, Plug_adm_time, Prod_adm_time
+
 
 def index(request):    
     return render(request, 'index.html', locals())
+
 
 def add_adm(request, id):    
     new_adm=App_test_time()
@@ -19,14 +23,10 @@ def add_adm(request, id):
 def index(request):    
     return render(request, 'test_page.html', locals())
 
+
 def table_view(request):
     now=datetime.datetime.now()    
-    query_date=now.strftime("%Y-%m-%d")  
-    # headers=[
-    #     'Дата фасовки','Артикул','№ парт.', 'План','№ аппар.','№ емкости',
-    #     '№ конв.','Время 1','Время 2','Проба из аппарата','Допуск на подключение',
-    #     'Проба с конвейера','Допуск на фасовку','Начало фасовки',        
-    # ] 
+    query_date=now.strftime("%Y-%m-%d")      
     headers=[
         'Дата фасовки','Артикул','№ парт.', 'План','№ аппар.','№ емкости',
         '№ конв.','Окончательная проба из аппарата (фактическое время)',
@@ -34,9 +34,11 @@ def table_view(request):
         'Допуск на фасовку','Фактическое время начала фасовки'        
     ]  
     records=Production.objects.select_related(
-        'suppose_times','app_test_time', 'conv_test_time','plug_adm_time', 'prod_adm_time'
-        )
+        'suppose_times','app_test_time', 'conv_test_time',
+        'plug_adm_time', 'prod_adm_time'
+    )
     return render(request, 'table_view.html', {'records':records, 'headers':headers})
+
     
 def test_page(request):    
     return render(request, 'test_page.html', locals())

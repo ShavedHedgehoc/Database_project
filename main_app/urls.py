@@ -16,11 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import path
 from . import views
-##
-urlpatterns = [
-    ##url(r'^$', views.index, name='index'),
+
+
+urlpatterns = [    
     url(r'^$', views.test_page, name='test_page'),
     url(r'^2$', views.table_view, name='table_view'),
     path('add_adm/<int:id>/',views.add_adm, name='add_adm')
-##    url(r'^upload/$', views.upload, name='upload'),
 ]

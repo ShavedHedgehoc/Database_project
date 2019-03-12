@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
+
 from .models import Batch, Marking, Apparatus, Container, Conveyor
 from .models import Suppose_times
 from .models import Production, App_test_time, Conv_test_time, Plug_adm_time, Prod_adm_time
