@@ -5,13 +5,14 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseNotFound
 
-""" from .models import Production, App_test_time, Conv_test_time
-from .models import Suppose_times, Plug_adm_time, Prod_adm_time """
+from .models import Production, App_time, Conv_time, Plug_time, Prod_time
+from .models import Supp_time
 
-from .models import Production2, App_test_time2, Plug_adm_time2
 
 
 def index(request):    
+    h="Это мы напишем в заголовке"
+    b="a это в теле мы напишем в заголовке"
     return render(request, 'index.html', locals())
 
 
@@ -20,11 +21,11 @@ def add_adm(request, id,t_name):
         if request.user.is_anonymous:
             return HttpResponseNotFound("<h2>forbidden</h2>")
         if t_name=="app":
-            new_adm=App_test_time2()
+            new_adm=App_time()
         elif t_name=="plug":
-            new_adm=Plug_adm_time2()
-        new_adm.fix_row=Production2.objects.get(id=id)
-        new_adm.fix_user=request.user
+            new_adm=Plug_time()
+        new_adm.f_row=Production.objects.get(id=id)
+        new_adm.f_user=request.user
         new_adm.save()    
     return HttpResponseRedirect("/")
 
@@ -34,19 +35,17 @@ def edit_adm(request, id,t_name):
         if request.user.is_anonymous:
             return HttpResponseNotFound("<h2>forbidden</h2>")
         if t_name=="app":
-            my_obj=App_test_time2
+            my_obj=App_time
         elif t_name=="plug":
-            my_obj=Plug_adm_time2        
+            my_obj=Plug_time        
         try:
-            app = my_obj.objects.get(fix_row_id=id)
+            app = my_obj.objects.get(f_row_id=id)
             app.delete()
             return HttpResponseRedirect("/")
         except my_obj.DoesNotExist:
             return HttpResponseNotFound("<h2>not found</h2>")
         
 
-def index(request):    
-    return render(request, 'test_page.html', locals())
 
 
 def table_view(request):
@@ -63,8 +62,8 @@ def table_view(request):
         'plug_adm_time', 'prod_adm_time'
     ) """
     
-    records=Production2.objects.select_related(
-        'app_test_time2', 'plug_adm_time2'
+    records=Production.objects.select_related(
+        'app_time', 'plug_time'
     )
     # return render(request, 'table_view.html', {'records':records, 'headers':headers})
     return render(request, 'table_view1.html', {'records':records, 'headers':headers})
