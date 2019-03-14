@@ -1,52 +1,45 @@
-<!-- <style type="text/css">
-  TABLE {
-    border-collapse:collapse;
-  }
-  TH {
-    background:#fc0;
-  }
-  TD {
-    background:#fff;
-    text-align:center;
-  }
-  TD.inner_table {
-    background:greenyellow;
-    text-align:center;
-    font-size: xx-small;
-  }
-  TH.small_header{
-    font-size: x-small;
-    word-break: break-all;
-  }
-  TH, TD {
-    border: 1px solid black;
-    padding-right: 0px;
-  }
-  
-</style> -->
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
 
-<table class="table">  
-  {% for j in headers %}
-    <th {% if j|length > 25 %} class="small_header"{% endif %}>{{j}}</th>
-  {% endfor %}
-
-  {% for i in records %}
-    <tr>
-      <td>{{i.date.day}}/{{i.date.month}}/{{i.date.year}}</td>
-      <td>{{i.marking}}</td>
-      <td>{{i.batch}}</td>
-      <td>{{i.plan}}</td>
-      <td>{{i.p_apparatus}}</td>
-      <td>{{i.p_container}}</td>
-      <td>{{i.p_conveyor}}</td>
-      <!-- <td>{{i.suppose_time.supp_app_test_time}}</td> -->
-      <!-- <td>{{i.suppose_time.supp_prod_adm_time}}</td> -->
-
-      <td {% if i.app_test_time.fix_time %}class="inner_table"{% endif %}>
-        <div>{{i.app_test_time.fix_time}}</div>
-        <div>{{i.app_test_time.fix_user.first_name}} {{i.app_test_time.fix_user.last_name}} </div>
-      </td>      
-      <td><form action="add_adm/{{i.id}}"><input type=submit value="adm" style="width:100%"></form></td>
+<div class="container-fluid"></div>
+<table class="table table-sm">
+  <thead class="thead">
+     <tr>
+        {% for h in headers %}
+        <th>{{h}}</th>
+        {% endfor %}              
     </tr>
-  {% endfor %}
+  </thead>
+<tbody>
+  {%for i in records %}
+  <tr> 
+    <div class="col-lg-4">  
+      <div class="col-lg-6">      
+        <td>{{i.p_date}}</td>
+        <td>{{i.p_marking}}</td>
+      </div>
+      <div class="col-lg-6">      
+        <td>{{i.p_batch}}</td>
+        <td>{{i.p_plan}}</td>
+        <td>{{i.p_apparatus}}</td>
+      </div>           
+    </div>
+    <div class="col-lg-8">          
+        <div class="col-lg-2"> 
+          <td >{{i.p_container}}</td>
+          <td >{{i.p_conveyor}}</td>
+        </div>
+        <div class="col-lg-10"> 
+          <td >{{i.app_time.f_time}}</td>
+          <td >{{i.plug_time.f_time}}</td>
+          <td >{{i.conv_time.f_time}}</td>
+          <td >{{i.prod_time.f_time}}</td>
+          <td >{{i.start_time.f_time}}</td>
+        </div>
+    </div>       
+  </tr> 
+  {% endfor %} 
+</tbody>   
 </table>
+</div>

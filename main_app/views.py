@@ -51,18 +51,20 @@ def edit_adm(request, id,t_name):
 def table_view(request):
     now=datetime.datetime.now()    
     query_date=now.strftime("%Y-%m-%d")      
-    headers=[
-        'Дата','Артикул','№ парт.', 'План','№ аппар.','№ емкости',
+    headers=[               
+        'Дата','Артикул','№ парт.','План',
+        '№ аппар.','№ емкости',
         '№ конв.','Проба из аппарата',
         'Допуск на подключение','Проба с конвейера',
-        'Допуск на фасовку','Начало фасовки'        
+        'Допуск на фасовку','Начало фасовки'
     ]  
         
     records=Production.objects.select_related(
-        'app_time', 'plug_time'
+        'app_time', 'plug_time', 'conv_time',
+        'prod_time', 'start_time'
     )
     # return render(request, 'table_view.html', {'records':records, 'headers':headers})
-    return render(request, 'table_view1.html', {'records':records, 'headers':headers})
+    return render(request, 'table_view.html', {'records':records, 'headers':headers})
 
     
 def test_page(request):    

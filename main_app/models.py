@@ -91,6 +91,10 @@ class Plug_time(Fix_time):
     pass
 
 
+class Start_time(Fix_time):
+    pass
+
+
 class Supp_time(models.Model): # Экземпляр строки таблицы предполагаемых событий
     prod_row=models.OneToOneField(Production, on_delete=models.CASCADE)
     s_time_a=models.TimeField(blank=True)
