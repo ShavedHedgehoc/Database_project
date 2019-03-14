@@ -52,16 +52,12 @@ def table_view(request):
     now=datetime.datetime.now()    
     query_date=now.strftime("%Y-%m-%d")      
     headers=[
-        'Дата фасовки','Артикул','№ парт.', 'План','№ аппар.','№ емкости',
-        '№ конв.','Окончательная проба из аппарата (фактическое время)',
-        'Допуск на подключение','Проба продукта с конвейера',
-        'Допуск на фасовку','Фактическое время начала фасовки'        
+        'Дата','Артикул','№ парт.', 'План','№ аппар.','№ емкости',
+        '№ конв.','Проба из аппарата',
+        'Допуск на подключение','Проба с конвейера',
+        'Допуск на фасовку','Начало фасовки'        
     ]  
-    """ records=Production.objects.select_related(
-        'suppose_times','app_test_time', 'conv_test_time',
-        'plug_adm_time', 'prod_adm_time'
-    ) """
-    
+        
     records=Production.objects.select_related(
         'app_time', 'plug_time'
     )
