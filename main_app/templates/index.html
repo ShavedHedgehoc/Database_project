@@ -2,26 +2,14 @@
 {% load staticfiles %}
 
 
-{% block left_head %}
-<div class="jumbotron">
-    <h3>
-        <div style="display:inline-block;">Сводка на: </div>
-        <div id="show_date" style="display:inline-block;"></div>
-    </h3>
-</div>
-    
-{% endblock %}
-
-{% block right_head %}
-    
+{% block head %}
+<a class="navbar-brand" href="#">Сводка на: <div id="show_date" style="display:inline-block;"></div></a>    
 {% endblock %}
 
 {% block main_block %}<div id="table"></div>{% endblock %}
 
-{% block footer %}
-<div style="display:inline-block;">Обновление через:</div>
-<div id="message" style="display:inline-block;"></div>
-<div style="display:inline-block;"> секунд ...</div>
+{% block foot %}
+<a class="navbar-brand" href="#">Обновление через: <div id="message" style="display:inline-block;"></div> сек.</a>    
 {% endblock %}
 
 {%block add_script %}

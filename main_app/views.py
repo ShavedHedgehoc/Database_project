@@ -63,7 +63,7 @@ def table_view(request):
         'app_time', 'plug_time', 'conv_time',
         'prod_time', 'start_time'
     )
-    # return render(request, 'table_view.html', {'records':records, 'headers':headers})
+    
     return render(request, 'table_view.html', {'records':records, 'headers':headers})
 
     

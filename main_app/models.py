@@ -30,7 +30,7 @@ class Container(Refer_descr): # Экземпляр справочника емк
 
 
 class Refer(models.Model): #Абстрактная модель справочника с одним полем
-    r_name=models.CharField(max_length=10, unique=True)
+    r_name=models.CharField(max_length=20, unique=True)
     
     class Meta:
         abstract=True

@@ -1,45 +1,44 @@
+<!-- Шаблон талицы для вывода на монитор -->
 {% load staticfiles %}
-{% load bootstrap3 %}
-{% bootstrap_css %}
 
 <div class="container-fluid"></div>
-<table class="table table-sm">
-  <thead class="thead">
-     <tr>
-        {% for h in headers %}
-        <th>{{h}}</th>
-        {% endfor %}              
-    </tr>
-  </thead>
-<tbody>
-  {%for i in records %}
-  <tr> 
-    <div class="col-lg-4">  
-      <div class="col-lg-6">      
-        <td>{{i.p_date}}</td>
-        <td>{{i.p_marking}}</td>
-      </div>
-      <div class="col-lg-6">      
-        <td>{{i.p_batch}}</td>
-        <td>{{i.p_plan}}</td>
-        <td>{{i.p_apparatus}}</td>
-      </div>           
-    </div>
-    <div class="col-lg-8">          
-        <div class="col-lg-2"> 
-          <td >{{i.p_container}}</td>
-          <td >{{i.p_conveyor}}</td>
-        </div>
-        <div class="col-lg-10"> 
-          <td >{{i.app_time.f_time}}</td>
-          <td >{{i.plug_time.f_time}}</td>
-          <td >{{i.conv_time.f_time}}</td>
-          <td >{{i.prod_time.f_time}}</td>
-          <td >{{i.start_time.f_time}}</td>
-        </div>
-    </div>       
-  </tr> 
-  {% endfor %} 
-</tbody>   
-</table>
+  <table class="table table-dark table-sm table-striped">
+    <thead class="thead-inverse">
+      <tr>
+          {% for h in headers %}
+          <th class="text-center font-italic">{{h}}</th>
+          {% endfor %}              
+      </tr>
+    </thead>
+    <tbody>
+      {%for i in records %}
+        <tr> 
+          <div class="col-lg-4">  
+            <div class="col-lg-6">      
+              <td class="text-center">{{i.p_date}}</td>
+              <td class="text-left">{{i.p_marking}}</td>
+            </div>
+            <div class="col-lg-6">      
+              <td class="text-center">{{i.p_batch}}</td>
+              <td class="text-center">{{i.p_plan}}</td>
+              <td class="text-center">{{i.p_apparatus}}</td>
+            </div>           
+          </div>
+          <div class="col-lg-8">          
+              <div class="col-lg-2"> 
+                <td class="text-center">{{i.p_container}}</td>
+                <td class="text-center font-weight-bold">{{i.p_conveyor}}</td>
+              </div>
+              <div class="col-lg-10"> 
+                <td {% if i.app_time.f_time %} class="table-success text-dark font-weight-bold text-center" {% endif%}>{{i.app_time.f_time}}</td>
+                <td class="text-center">{{i.plug_time.f_time}}</td>
+                <td class="text-center">{{i.conv_time.f_time}}</td>
+                <td class="text-center">{{i.prod_time.f_time}}</td>
+                <td class="text-center">{{i.start_time.f_time}}</td>
+              </div>
+          </div>       
+        </tr> 
+      {% endfor %} 
+    </tbody>   
+  </table>
 </div>
