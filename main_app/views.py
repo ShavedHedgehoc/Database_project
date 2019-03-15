@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseNotFound
+from django.contrib import auth
 
 from .models import Production, App_time, Conv_time, Plug_time, Prod_time
 from .models import Supp_time
@@ -11,9 +12,10 @@ from .models import Supp_time
 
 
 def index(request):    
-    h="Это мы напишем в заголовке"
-    b="a это в теле мы напишем в заголовке"
+    curr_user=auth.get_user(request).username
     return render(request, 'index.html', locals())
+
+
 
 
 def add_adm(request, id,t_name): 
