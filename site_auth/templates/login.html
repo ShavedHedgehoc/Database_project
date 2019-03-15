@@ -1,16 +1,16 @@
 {% extends "centerpage.html" %}
 {% block main_block %}
-
-    <form class="form-signin" action="site_auth/login/" method="POST">
+<div class="card bg-dark">
+    <form class="form" action="site_auth/login/" method="POST">
         {% csrf_token %}
         <input type="text" name="username" class="form-control" id="username" placeholder="Пользователь">            
         <input type="password" name="password" class="form-control" id="password" placeholder="Пароль">
-        <button class="btn btn-light" type="submit" id = "submit">Авторизоваться</button>
+        <button class="btn btn-secondary btn-block" type="submit" id = "submit">Авторизоваться</button>
         {% if login_error %}
-        <label class="error">{{login_error}}</label>
+        <button class="btn btn-secondary btn-block" disabled>{{login_error}}</button>
         {% endif %}
     </form>
-
+</div>
 
 {% endblock%}
 </body>

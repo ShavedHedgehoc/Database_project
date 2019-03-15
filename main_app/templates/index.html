@@ -3,8 +3,8 @@
 
 
 {% block head %}
-<a class="navbar-text" id="show_date"></a>
-<a class="navbar-brand" href="#"><div>Табло</div></a>   
+<!-- <a class="navbar-brand" id="show_date">1</a> -->
+<a class="navbar-brand" href="board"><div>Табло</div></a>   
 <a class="navbar-brand" href="#"><div>Операции</div></a> 
 {% endblock %}
 
@@ -31,5 +31,5 @@
 
 {%block add_script %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src={% static "main_app/renew.js" %}></script>
+  <script src={% static "main_app/tt.js" %}></script>
 {% endblock %}
