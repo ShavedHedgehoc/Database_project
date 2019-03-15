@@ -3,7 +3,24 @@
 
 
 {% block head %}
-<a class="navbar-brand" href="#">Сводка на: <div id="show_date" style="display:inline-block;"></div></a>    
+<a class="navbar-text" id="show_date"></a>
+<a class="navbar-brand" href="#"><div>Табло</div></a>   
+<a class="navbar-brand" href="#"><div>Операции</div></a> 
+{% endblock %}
+
+{% block head2 %}
+{% if curr_user %}
+<div><span class="text-right">
+
+
+<a class="navbar-text text-light text-left"><span class="text-left">Пользователь: {{curr_user}}</span>  </a>
+<a class="navbar-text text-light" href="logout"><span class="text-right">Log out</span></a>
+</span></div>
+{% else %}
+<a class="navbar-text text-light">Пользователь не авторизован  </a>
+<a class="navbar-text text-light" href="login">Log in</a>
+{% endif %}
+
 {% endblock %}
 
 {% block main_block %}<div id="table"></div>{% endblock %}

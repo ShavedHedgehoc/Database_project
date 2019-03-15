@@ -1,0 +1,40 @@
+{% extends "page.html" %}
+
+
+{% block head %}
+
+{% endblock %}
+
+{% block main_block %}
+
+{% block login_auth %}
+
+<div class="container text-center">
+    <form action="site_auth/login/" method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="username "><span class="text-light">Пользователь:</span></label>
+        </div>
+        <div>
+            <input type="text" name="username" id="username">            
+        </div>    
+        <div>
+            <label for="password"><span class="text-light">Пароль:</span>    </label>
+        </div>
+        <div>
+            <input type="password" name="password" id="password">
+            <p></p>                        
+        </div>
+        <div>
+            <button class="btn btn-light" type="submit" id = "submit">Авторизоваться</button>
+            <p></p>
+        </div>
+        {% if login_error %}
+            <div><label class="error"><span class="text-light">{{login_error}}</span></label></div>
+        {% endif %}
+        
+        
+    </form>
+</div>
+{% endblock login_auth %}
+{% endblock%}
