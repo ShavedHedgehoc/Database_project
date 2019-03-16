@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block body %}
+<body class="bg-dark">
+    
 
 <div class="container">
     <div class="row justify-content-center align-items-center" style="height:100vh"> 
         {% block main_block %}{% endblock %}        
     </div>    
 </div>
-
+</body>
 {% endblock %}

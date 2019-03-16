@@ -22,13 +22,13 @@ def index(request):
 
 
 
-def add_adm(request, id,t_name): 
+def add_adm(request, id, t_name): 
     if request.method=="POST":
         if request.user.is_anonymous:
             return HttpResponseNotFound("<h2>forbidden</h2>")
-        if t_name=="app":
+        if t_name == "app":
             new_adm=App_time()
-        elif t_name=="plug":
+        elif t_name == "plug":
             new_adm=Plug_time()
         new_adm.f_row=Production.objects.get(id=id)
         new_adm.f_user=request.user

@@ -1,8 +1,7 @@
 <!-- Шаблон талицы для вывода на монитор -->
-{% load staticfiles %}
+{% load static%}
 
-<div class="container-fluid"></div>
-  <table class="table table-dark table-sm table-striped ">
+  <table class="table table-sm table-dark table-striped ">
     <thead class="thead-inverse">
       <tr>
           {% for h in headers %}
@@ -15,13 +14,13 @@
         <tr> 
           <div class="col-lg-4">  
             <div class="col-lg-6">      
-              <td class="text-center">{{i.p_date}}</td>
+              <td class="text-center">{{i.p_date|date:"d-m-Y"}}</td>
               <td class="text-left">{{i.p_marking}}</td>
             </div>
             <div class="col-lg-6">      
               <td class="text-center">{{i.p_batch}}</td>
               <td class="text-center">{{i.p_plan}}</td>
-              <td class="text-center"><span class="glyphicon glyphicon-plus"></span>{{i.p_apparatus}}</td>
+              <td class="text-center">{{i.p_apparatus}}</td>
             </div>           
           </div>
           <div class="col-lg-8">          
@@ -30,7 +29,29 @@
                 <td class="text-center font-weight-bold">{{i.p_conveyor}}</td>
               </div>
               <div class="col-lg-10"> 
-                <td {% if i.app_time.f_time %} class="table-success text-dark font-weight-bold text-center" {% endif%}>{{i.app_time.f_time}}</td>
+                  {% if i.app_time.f_time %}
+                  <td class="text-center">
+                      <form name="app_edit" method="POST" action="edit_adm/app/{{i.id}}">
+                        {% csrf_token %}
+                        <button class="btn btn-success" type=submit>
+                          <span class="small">
+                            {{i.app_time.f_time|time:"f"}} {{i.app_time.f_user.first_name}} {{i.app_time.f_user.last_name}}
+                          </span>
+                        </button>            
+                      </form>
+                  </td>
+                  {% else %}
+                  <td class="text-center">
+                  <form name="app_add" method="POST" action="add_adm/app/{{i.id}}">
+                    {% csrf_token %}
+                    <button class="btn btn-dark" type=submit>
+                        +
+                    </button>               
+                  </form>
+                </td>
+                  {% endif%}
+
+                
                 <td class="text-center">{{i.plug_time.f_time}}</td>
                 <td class="text-center">{{i.conv_time.f_time}}</td>
                 <td class="text-center">{{i.prod_time.f_time}}</td>
@@ -41,4 +62,4 @@
       {% endfor %} 
     </tbody>   
   </table>
-</div>
+<table id="my-table"></table>
