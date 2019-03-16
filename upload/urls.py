@@ -15,13 +15,9 @@ Including another URLconf
 """
 from django.urls import path
 from django.conf.urls import url
-from . import views as login_views
+from . import views as upload_views
 
 
 urlpatterns = [    
-    # path('/login/',login_views.login, name='login'),
-    # path('logout',login_views.logout, name='logout'),   
-    # url(r'test/',login_views.test, name='test'),  
-    url(r'login/', login_views.login, name='login'), 
-    url(r'logout/', login_views.logout, name='logout'),
+    url(r'upload/', upload_views.upload, name='upload'), 
 ]

@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('main_app.urls')),
     path('', include('site_auth.urls')),
     path('', include('board.urls')),
+    path('', include('upload.urls')),
 ]

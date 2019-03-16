@@ -1,6 +1,5 @@
-{% extends "centerpage.html" %}
-{% block main_block %}
-<div class="card bg-dark">
+{% extends "centerform_4_dark.html" %}
+{% block form_block %}
     <form class="form" action="site_auth/login/" method="POST">
         {% csrf_token %}
         <input type="text" name="username" class="form-control" id="username" placeholder="Пользователь">            
@@ -10,7 +9,4 @@
         <button class="btn btn-secondary btn-block" disabled>{{login_error}}</button>
         {% endif %}
     </form>
-</div>
-
 {% endblock%}
-</body>

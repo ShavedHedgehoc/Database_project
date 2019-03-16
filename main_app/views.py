@@ -11,9 +11,13 @@ from .models import Supp_time
 
 
 
-def index(request):    
-    curr_user=auth.get_user(request).username
-    return render(request, 'index.html', locals())
+def index(request):  
+    context={} 
+    curr_user =auth.get_user(request).username
+    # curr_user=uu_user.username
+    # user_group=uu_user.groups.filter(id=1)
+    context={'curr_user':curr_user}
+    return render(request, 'index.html', context)
 
 
 
