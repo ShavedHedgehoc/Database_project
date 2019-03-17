@@ -56,10 +56,77 @@ def edit_adm(request, id,t_name):
 
 
 
+# def table_view(request):
+#     now=datetime.datetime.now()    
+#     # query_date=now.strftime("%Y-%m-%d")      
+#     context={}
+#     headers=[               
+#         'Дата','Артикул','№ парт.','План',
+#         '№ аппар.','№ емкости',
+#         '№ конв.','Проба из аппарата',
+#         'Допуск на подключение','Проба с конвейера',
+#         'Допуск на фасовку','Начало фасовки'
+#     ]  
+     
+#     prod_records=Production.objects.select_related(
+#         'app_time', 'plug_time', 'conv_time',
+#         'prod_time', 'start_time'
+#     )
+#     records=[]
+
+#     for i in prod_records:
+        
+#         try:
+#             i_app_time=i.app_time.f_time
+#         except Production.app_time.RelatedObjectDoesNotExist:
+#             i_app_time=MyForm()
+        
+#         try:
+#             i_plug_time=i.plug_time.f_time
+#         except Production.plug_time.RelatedObjectDoesNotExist:
+#             i_plug_time=""
+
+#         try:
+#             i_prod_time=i.prod_time.f_time
+#         except Production.prod_time.RelatedObjectDoesNotExist:
+#             i_prod_time=""
+    
+#         try:            
+#             i_conv_time=i.conv_time.f_time
+#         except Production.conv_time.RelatedObjectDoesNotExist:
+#             i_conv_time=""
+
+#         try:
+#             i_start_time=i.start_time.f_time        
+#         except Production.start_time.RelatedObjectDoesNotExist:
+#             i_start_time=""
+
+#         a = {
+#             'field1':i.p_date,
+#             'field2':i.p_marking,
+#             'field3':i.p_batch,
+#             'field4':i.p_plan,
+#             'field5':i.p_apparatus,
+#             'field6':i.p_container,
+#             'field7':i.p_conveyor,
+#             'field8':i_app_time,            
+#             'field9':i_plug_time,
+#             'field10':i_prod_time,
+#             'field11':i_conv_time,
+#             'field12':i_start_time
+#         }
+#         records.append(a)
+        
+              
+
+    
+#     context={'records':records, 'headers':headers}
+#     # return render(request, 'table_view.html', {'records':prod_records, 'headers':headers})
+#     return render(request, 'table_view22.html', context)
+    
 def table_view(request):
-    now=datetime.datetime.now()    
+    # now=datetime.datetime.now()    
     # query_date=now.strftime("%Y-%m-%d")      
-    context={}
     headers=[               
         'Дата','Артикул','№ парт.','План',
         '№ аппар.','№ емкости',
@@ -67,60 +134,10 @@ def table_view(request):
         'Допуск на подключение','Проба с конвейера',
         'Допуск на фасовку','Начало фасовки'
     ]  
-     
-    prod_records=Production.objects.select_related(
+        
+    records=Production.objects.select_related(
         'app_time', 'plug_time', 'conv_time',
         'prod_time', 'start_time'
     )
-    records=[]
-
-    for i in prod_records:
-        
-        try:
-            i_app_time=i.app_time.f_time
-        except Production.app_time.RelatedObjectDoesNotExist:
-            i_app_time=MyForm()
-        
-        try:
-            i_plug_time=i.plug_time.f_time
-        except Production.plug_time.RelatedObjectDoesNotExist:
-            i_plug_time=""
-
-        try:
-            i_prod_time=i.prod_time.f_time
-        except Production.prod_time.RelatedObjectDoesNotExist:
-            i_prod_time=""
     
-        try:            
-            i_conv_time=i.conv_time.f_time
-        except Production.conv_time.RelatedObjectDoesNotExist:
-            i_conv_time=""
-
-        try:
-            i_start_time=i.start_time.f_time        
-        except Production.start_time.RelatedObjectDoesNotExist:
-            i_start_time=""
-
-        a = {
-            'field1':i.p_date,
-            'field2':i.p_marking,
-            'field3':i.p_batch,
-            'field4':i.p_plan,
-            'field5':i.p_apparatus,
-            'field6':i.p_container,
-            'field7':i.p_conveyor,
-            'field8':i_app_time,            
-            'field9':i_plug_time,
-            'field10':i_prod_time,
-            'field11':i_conv_time,
-            'field12':i_start_time
-        }
-        records.append(a)
-        
-              
-
-    
-    context={'records':records, 'headers':headers}
-    # return render(request, 'table_view.html', {'records':prod_records, 'headers':headers})
-    return render(request, 'table_view22.html', context)
-    
+    return render(request, 'table_view.html', {'records':records, 'headers':headers})
