@@ -1,5 +1,5 @@
 <!-- Шаблон талицы для вывода на монитор -->
-
+{% load static%}
 
   <table class="table table-sm table-dark table-striped ">
     <thead class="thead-inverse">
@@ -29,7 +29,6 @@
               <td class="text-center font-weight-bold">{{i.p_conveyor}}</td>
             </div>
             <div class="col-lg-10"> 
-              <!-- форма для фиксации времени пробы из аппарата -->
               {% if i.app_time.f_time %}
                 <td class="text-center">
                   <form name="app_edit" method="POST" action="edit_adm/app/{{i.id}}">
@@ -51,55 +50,32 @@
                   </form>
                 </td>
               {% endif%}
-              <!-- --------------------------------------------- -->
-
               {% if i.plug_time.f_time %}
                 <td class="text-center">
-                  <button class="btn btn-success">
+                  <form name="plug_edit" method="POST" action="edit_adm/plug/{{i.id}}">
+                    {% csrf_token %}
+                    <button class="btn btn-success" type=submit>
                       <span class="small">
                         {{i.plug_time.f_time|time:"f"}} {{i.plug_time.f_user.first_name}} {{i.plug_time.f_user.last_name}}
                       </span>
-                  </button>            
-                </td>  
+                    </button>            
+                  </form>
+                </td>
               {% else %}
-                <td class="text-center"> </td>
+                <td class="text-center">
+                  <form name="plug_add" method="POST" action="add_adm/plug/{{i.id}}">
+                    {% csrf_token %}
+                    <button class="btn btn-dark" type=submit>
+                      +
+                    </button>               
+                  </form>
+                </td>
               {% endif%}
 
-              {% if i.conv_time.f_time %}
-                <td class="text-center">
-                  <button class="btn btn-success">
-                      <span class="small">
-                        {{i.conv_time.f_time|time:"f"}} {{i.conv_time.f_user.first_name}} {{i.conv_time.f_user.last_name}}
-                      </span>
-                  </button>            
-                </td>  
-              {% else %}
-                <td class="text-center"> </td>
-              {% endif%}
-
-              {% if i.prod_time.f_time %}
-                <td class="text-center">
-                  <button class="btn btn-success">
-                      <span class="small">
-                        {{i.prod_time.f_time|time:"f"}} {{i.prod_time.f_user.first_name}} {{i.prod_time.f_user.last_name}}
-                      </span>
-                  </button>            
-                </td>  
-              {% else %}
-                <td class="text-center"> </td>
-              {% endif%}
-
-              {% if i.start_time.f_time %}
-                <td class="text-center">
-                  <button class="btn btn-success">
-                      <span class="small">
-                        {{i.start_time.f_time|time:"f"}} {{i.start_time.f_user.first_name}} {{i.start_time.f_user.last_name}}
-                      </span>
-                  </button>            
-                </td>  
-              {% else %}
-                <td class="text-center"> </td>
-              {% endif%}
+              
+              <td class="text-center">{{i.conv_time.f_time}}</td>
+              <td class="text-center">{{i.prod_time.f_time}}</td>
+              <td class="text-center">{{i.start_time.f_time}}</td>
             </div>
           </div>       
         </tr> 

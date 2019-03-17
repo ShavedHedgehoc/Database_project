@@ -1,0 +1,40 @@
+  <table class="table table-sm table-dark table-striped ">
+    <thead class="thead-inverse">
+      <tr>
+        {% for h in headers %}
+          <th class="text-center font-italic">{{h}}</th>
+        {% endfor %}              
+      </tr>
+    </thead>
+    <tbody>
+      {%for i in records %}
+        <tr> 
+          <div class="col-lg-4">  
+            <div class="col-lg-6">      
+              <td class="text-center">{{i.field1}}</td>
+              <td class="text-left">{{i.field2}}</td>
+            </div>
+            <div class="col-lg-6">      
+              <td class="text-center">{{i.field3}}</td>
+              <td class="text-center">{{i.field4}}</td>
+              <td class="text-center">{{i.field5}}</td>
+            </div>           
+          </div>
+          <div class="col-lg-8">          
+            <div class="col-lg-2"> 
+              <td class="text-center">{{i.field6}}</td>
+              <td class="text-center font-weight-bold">{{i.field7}}</td>
+            </div>
+            <div class="col-lg-10">  
+              <td class="text-center">{{i.field8}}</td>
+              <td class="text-center">{{i.field9}}</td>
+              <td class="text-center">{{i.field10}}</td>
+              <td class="text-center">{{i.field11}}</td>
+              <td class="text-center">{{i.field12}}</td>              
+            </div>
+          </div>       
+        </tr> 
+      {% endfor %} 
+    </tbody>   
+  </table>
+
