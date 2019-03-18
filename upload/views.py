@@ -2,7 +2,8 @@ from django.shortcuts import render
 import pandas as pd
 import os
 from xlrd import XLRDError
-from main_app.models import Production, Batch, Apparatus, Container, Conveyor, Marking
+from main_app.models import Production, Batch, Marking
+from main_app.models import Apparatus, Container, Conveyor
 from datetime import datetime
 
 # Create your views here.
@@ -18,9 +19,11 @@ def get_date(date_str):  # Функция для преобразования д
 
 
 def read_xl_file(r_file):
-    # Функция возвращает список, состоящий из DataFrame и кода ошибки
-    # В случае ошибки - DataFrame = None
-    # При успешной загрузке - err_msg = Pass
+    """ Функция возвращает список, состоящий из DataFrame и кода ошибки.
+    Анализируется только тип файла, заголовки и рамерность полученной
+    матрицы данных. Наличие пустых строк и пустых значений - в другой функции.
+    В случае ошибки - DataFrame = None, err_msg - сообщение для вывода
+    на страницу. При успешной загрузке - err_msg = Pass """
     headers_to_compare = [  # Список заголовков загружаемого файла
         "date",  # (используется для проверки назначения файла и размерности)
         "marking",
@@ -50,6 +53,10 @@ def read_xl_file(r_file):
         if r_df is not None:
             df_count = len(r_df.index)
             df_headers = list(r_df.columns.values)
+            """ Проверяем, совпадают ли заголовки с контрольными.
+            При видимом совпадении заголовков, но при наличии лишнего столбца,
+            в df_headers присутствует лишний, пустой заголовок, по этому,
+            условие не выполняется"""
             if df_headers != headers_to_compare:
                 r_df = None
                 err_msg = "Заголовки таблицы не совпадают с контрольными"
@@ -72,7 +79,7 @@ def upload(request):
         df_to_append = df[0]
         for index, row in df_to_append.iterrows():
             marking, _ = Marking.objects.get_or_create(r_name=row['marking'])
-            """ get_or_create возвращает объект модели и Boolean(True - создали
+            u""" get_or_create возвращает объект модели и Boolean(True - создали
             новый объект, False - вернули существующий). Подчеркивание -
             пропускаем ненужное значение """
             batch, _ = Batch.objects.get_or_create(r_name=row['batch'])
