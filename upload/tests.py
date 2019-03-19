@@ -1,39 +1,50 @@
 from django.test import TestCase
 from .views import read_xl_file
-import tempfile, shutil
+import openpyxl
+import tempfile
+import shutil
+import pandas as pd
 import os
-from os import path
-
-
-
 
 
 # Create your tests here.
+
+
+from unittest import TestCase
+
+
 class read_xl_file_tests(TestCase):
-    
-    def setUp(self):
-        self.test_dir = tempfile.mkdtemp()
-        # Установки запускаются перед каждым тестом
-        
 
-    def tearDown(self):
-        shutil.rmtree(self.test_dir)
-        # Очистка после каждого метода
-        
+    def ffff(self):
+        filename = 'not_existing_file.xlsx'
+        with self.assertRaises(FileNotFoundError):
+            self.read_xl_file(filename)
 
-    # def test_file_not_exist(self):  # Пытаемся открыть несуществующий файл
-    #     print("Checking not existing file...")
-    #     testfile = "F:\notexisting.xls"
-    #     test_df = read_xl_file(testfile)
-    #     self.assertTrue(test_df[1] == "Файла не существует")
-    #     self.assertTrue(test_df[0] is None)
+    def test_empty_xls_xlsx_file(self):
+        files = []
+        wb = openpyxl.Workbook()
+        wb.save('empty_xlsx_file.xlsx')
+        files.append('empty_xlsx_file.xlsx')
+        wb = openpyxl.Workbook()
+        wb.save('empty_xls_file.xls')
+        files.append('empty_xls_file.xls')
+        for filename in files[0:2]:
+            test_df = read_xl_file(filename)
+            self.assertTrue(
+                test_df[1] == "Заголовки таблицы не совпадают с контрольными")
+            self.assertIsNone(test_df[0])
+            os.remove(filename)
 
-    def test_empty_xls_file(self):  # Пытаемся открыть пустой файл xls
-        filename = 'my_name.xls'
-        temp = open(filename, 'w+b')
-        temp.close()            
+    def test_not_existing_file(self):
+        filename = 'not_existing_file.xlsx'
         test_df = read_xl_file(filename)
-        print(filename)
-        print(test_df[1])
-        self.assertTrue(test_df[1] == "В файле нет данных, кроме заголовка")
-        self.assertTrue(test_df[0] is None)
+        self.assertTrue(test_df[1] == "Файла не существует")
+        self.assertIsNone(test_df[0])
+
+    def test_not_xls_file(self):
+        temp = open('not_excel_file.txt', 'w+b')
+        temp.close()
+        test_df = read_xl_file('not_excel_file.txt')
+        self.assertTrue(test_df[1] == "Файл не является файлом .xls .xlsx")
+        self.assertIsNone(test_df[0])
+        os.remove('not_excel_file.txt')

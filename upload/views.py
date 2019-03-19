@@ -33,7 +33,7 @@ def read_xl_file(r_file):
         "container",
         "conveyor"
     ]
-    try:
+    try:        
         # Пытаемся переименовать файл, если файл открыт - получаем IOError
         os.rename(r_file, 'nameforisopenedcheck.xlsx')
         os.rename('nameforisopenedcheck.xlsx', r_file)
