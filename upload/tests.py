@@ -16,9 +16,9 @@ from unittest import TestCase
 class read_xl_file_tests(TestCase):
 
     def ffff(self):
-        filename = 'not_existing_file.xlsx'
-        with self.assertRaises(FileNotFoundError):
-            self.read_xl_file(filename)
+        self.fname = 'not_existing_file.xlsx'
+        self.assertRaises(FileNotFoundError, read_xl_file, self.fname)
+            
 
     def test_empty_xls_xlsx_file(self):
         files = []
