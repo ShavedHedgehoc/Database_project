@@ -1,5 +1,7 @@
 import pandas as pd
 import os
+import magic
+import openpyxl
 from django.urls import reverse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -9,7 +11,7 @@ import xlrd
 from main_app.models import Production, Batch, Marking
 from main_app.models import Apparatus, Container, Conveyor
 from datetime import datetime
-from excelparser import ExcelParser
+# from excelparser import ExcelParser
 
 # Create your views here.
 
@@ -72,22 +74,32 @@ def read_xl_file(r_file):
                 else:
                     err_msg = "Pass"
     return r_df, err_msg
-
+def rx(excel_file):
+    xl = pd.ExcelFile(excel_file)
+    sh = xl.sheet_names[0]
+    r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
+    return r_df
 
 def upload(request):
     if request.method == "POST":
         form = File_upload_form(request.POST, request.FILES)
         if form.is_valid():
-            # excel_parser = ExcelParser()
-            # aaa = excel_parser.read_excel(request.FILES['filename'])
-
-            load_file = request.FILES['filename']
-            uploadfile1(load_file)
-            return HttpResponseRedirect(reverse('errorpage'))
+            excel_file = request.FILES['filename']
+            content_type = magic.from_buffer(excel_file.read(), mime=False)
+            # r_df=rx(excel_file)
+            # xl = pd.ExcelFile(excel_file)
+            # sh = xl.sheet_names[0]
+            # r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
+            # # wb = openpyxl.load_workbook(excel_file)
+            # return render(request, 'success-page.html')
+            context = {'form': form, 'msg':content_type}
+            return render(request, 'upload.html', context)
+            
+            
     else:
         form = File_upload_form()
-    context = {'form': form}
-    return render(request, 'upload.html', context)
+        context = {'form': form}
+        return render(request, 'upload.html', context)
 
 
 def uploadfile1(filename):

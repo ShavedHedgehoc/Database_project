@@ -1,12 +1,16 @@
-{% extends "centerpage.html" %}
+
 
 {% block main_block %}
 
 <h1>Загрузка файла сводки:</h1>
     <form action="upload" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+        <table>
         {{ form }}        
+        </table>
         <input type="submit">
+        {{ msg }}
+        
     </form>
-
+    
 {% endblock %}
