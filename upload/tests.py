@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+import datetime
 from upload.views import read_xl_file
 from upload.views import get_date
 
@@ -43,11 +43,16 @@ class read_xl_file_tests(TestCase):
         os.remove('not_excel_file.txt')
 
 
-class test_get_date_function(TestCase):
-    def common_date_test(self):
-        pattern = "2019-11-01 23:15:50"
-        test_date = get_date("2019-11-01 23:15:50")
-        self.assertTrue(test_date == "01-11-2019")
+class get_date_function_tests(TestCase):
+    def test_date_test(self):
+        input_string = "2019-11-01 23:15:50"
+        test_date = get_date(input_string)
+        self.assertEqual(test_date, "2019-11-01")
+
+    def test_date_test2(self):
+        input_string = "2019/11/h01 23:15:50"
+        test_date = get_date(input_string)
+        self.assertEqual(test_date, "2019-11-01")
 
 
 if __name__ == '__main__':
