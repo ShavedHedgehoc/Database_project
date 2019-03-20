@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'main_app',
     'site_auth',
     'board',
-    'upload'
+    'upload',    
 ]
 
 MIDDLEWARE = [

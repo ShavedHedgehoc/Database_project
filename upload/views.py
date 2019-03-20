@@ -1,10 +1,15 @@
-from django.shortcuts import render
 import pandas as pd
 import os
+from django.urls import reverse
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from .forms import File_upload_form
 from xlrd import XLRDError
+import xlrd
 from main_app.models import Production, Batch, Marking
 from main_app.models import Apparatus, Container, Conveyor
 from datetime import datetime
+from excelparser import ExcelParser
 
 # Create your views here.
 
@@ -33,7 +38,7 @@ def read_xl_file(r_file):
         "container",
         "conveyor"
     ]
-    try:        
+    try:
         # Пытаемся переименовать файл, если файл открыт - получаем IOError
         os.rename(r_file, 'nameforisopenedcheck.xlsx')
         os.rename('nameforisopenedcheck.xlsx', r_file)
@@ -70,33 +75,60 @@ def read_xl_file(r_file):
 
 
 def upload(request):
-    # тут надо втыкнуть форму, которая будет передавать выбранный файл
-    df = read_xl_file('D:\\test.xls')
-    if df[1] != "Pass":
-        context = {'msg': df[1]}
-        return render(request, 'err-page.html', context)
+    if request.method == "POST":
+        form = File_upload_form(request.POST, request.FILES)
+        if form.is_valid():
+            # excel_parser = ExcelParser()
+            # aaa = excel_parser.read_excel(request.FILES['filename'])
+
+            load_file = request.FILES['filename']
+            uploadfile1(load_file)
+            return HttpResponseRedirect(reverse('errorpage'))
     else:
-        df_to_append = df[0]
-        for index, row in df_to_append.iterrows():
-            marking, _ = Marking.objects.get_or_create(r_name=row['marking'])
-            u""" get_or_create возвращает объект модели и Boolean(True - создали
-            новый объект, False - вернули существующий). Подчеркивание -
-            пропускаем ненужное значение """
-            batch, _ = Batch.objects.get_or_create(r_name=row['batch'])
-            apparatus, _ = Apparatus.objects.get_or_create(
-                rd_name=row['apparatus'])
-            container, _ = Container.objects.get_or_create(
-                rd_name=row['container'])
-            conveyor, _ = Conveyor.objects.get_or_create(
-                rd_name=row['conveyor'])
-            new_prod_obj = Production.objects.create(
-                p_date=get_date(row['date']),
-                p_marking=marking,
-                p_batch=batch,
-                p_apparatus=apparatus,
-                p_container=container,
-                p_conveyor=conveyor)
-        context = {
-            'msg': "Добавлено " + str(len(df_to_append)) + " новых строк"
-        }
-        return render(request, 'success-page.html', context)
+        form = File_upload_form()
+    context = {'form': form}
+    return render(request, 'upload.html', context)
+
+
+def uploadfile1(filename):
+    BASE_DIR = os.path.split(__file__)
+    destination = os.path.join(BASE_DIR[0], filename.name)
+    with open(destination, 'wb+') as dest:
+        for chunk in filename:
+            dest.write(chunk)
+
+    return HttpResponseRedirect(reverse('success'))
+
+
+def uploadfile(request, filename):
+
+    df = read_xl_file(r'D:\Project\Database_project\upload\1.xlsm')
+    # if df[1] != "Pass":
+    #     context = {'msg': df[1]}
+    #     return render(request, 'err-page.html', context)
+    # else:
+    #     df_to_append = df[0]
+    #     for index, row in df_to_append.iterrows():
+    #         marking, _ = Marking.objects.get_or_create(
+    #             r_name=row['marking'])
+    #         u""" get_or_create возвращает объект модели и Boolean(True - создали
+    #         новый объект, False - вернули существующий). Подчеркивание -
+    #         пропускаем ненужное значение """
+    #         batch, _ = Batch.objects.get_or_create(r_name=row['batch'])
+    #         apparatus, _ = Apparatus.objects.get_or_create(
+    #             rd_name=row['apparatus'])
+    #         container, _ = Container.objects.get_or_create(
+    #             rd_name=row['container'])
+    #         conveyor, _ = Conveyor.objects.get_or_create(
+    #             rd_name=row['conveyor'])
+    #         new_prod_obj = Production.objects.create(
+    #             p_date=get_date(row['date']),
+    #             p_marking=marking,
+    #             p_batch=batch,
+    #             p_apparatus=apparatus,
+    #             p_container=container,
+    #             p_conveyor=conveyor)
+    #     context = {
+    #         'msg': "Добавлено " + str(len(df_to_append)) + " новых строк"
+    #     }
+    #     return render(request, 'success-page.html', context)

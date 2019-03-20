@@ -53,8 +53,11 @@ def edit_adm(request, id,t_name):
         except my_obj.DoesNotExist:
             return HttpResponseNotFound("<h2>not found</h2>")
         
+def success(request):
+    return render(request, 'success-page.html')
 
-
+def errorpage(request):
+    return render(request, 'err-page.html')
 
 # def table_view(request):
 #     now=datetime.datetime.now()    

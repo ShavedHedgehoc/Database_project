@@ -19,5 +19,7 @@ from . import views as upload_views
 
 
 urlpatterns = [    
-    url(r'upload/', upload_views.upload, name='upload'), 
+    url(r'upload/', upload_views.upload, name='upload'),
+    # path('success', upload.success, name='success'), 
+    # path('uploadfile',upload_views.uploadfile, name='uploadfile'),     
 ]
