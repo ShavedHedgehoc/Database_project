@@ -14,3 +14,20 @@
     </form>
     
 {% endblock %}
+
+<!-- <form class="form-contact" action="" method="POST">
+    {% csrf_token %} 
+    {% for field in form %}
+    <fieldset class="form-group">
+      <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+        <div class="form-control">
+          <input type="text" class="form-control"
+            name="{{ field.name }}"
+            id="id_{{ field.name }}"
+            value="{{ field.value }}" > 
+            <p class="help-text">{{ field.help_text }} </p>
+           </div>
+    </fieldset>
+    {% endfor %}
+       <input type="submit" value="Submit"  class="btn btn-primary">
+    </form> -->
