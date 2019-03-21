@@ -1,33 +1,30 @@
+{%extends "base.html"%}
+{% load staticfiles %}
 
-
-{% block main_block %}
-
-<h1>Загрузка файла сводки:</h1>
-    <form action="upload" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <table>
-        {{ form }}        
-        </table>
-        <input type="submit">
-        {{ msg }}
+{% block body %}
+<form class="form-group bg-light was-validated" autocomplete="off" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="custom-file" id="ff">
+    <input type="file" class="custom-file-input" id="id_{{form.filename.name}}" name="{{form.filename.name}}" required>
+    <label class="custom-file-label" for="id_{{form.filename.name}}">Имя файла</label>
+    <div class="invalid-feedback">
+        {% if form.filename.errors %}
+        <ol>
+        {% for error in form.filename.errors %}
+            <strong>{{ error|escape }}</strong>
+        {% endfor %}
+        </ol>
+        {% else %}
+        <strong>Пожалуйста, выберите файл для обработки:</strong>
         
-    </form>
-    
+    {% endif %}
+      </div>
+  </div>
+  <input type="submit" class="btn btn-primary btn-block">
+</form>
+{{ msg }}
 {% endblock %}
 
-<!-- <form class="form-contact" action="" method="POST">
-    {% csrf_token %} 
-    {% for field in form %}
-    <fieldset class="form-group">
-      <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
-        <div class="form-control">
-          <input type="text" class="form-control"
-            name="{{ field.name }}"
-            id="id_{{ field.name }}"
-            value="{{ field.value }}" > 
-            <p class="help-text">{{ field.help_text }} </p>
-           </div>
-    </fieldset>
-    {% endfor %}
-       <input type="submit" value="Submit"  class="btn btn-primary">
-    </form> -->
+{%block add_script %}
+<script src={% static "upload/123.js" %}></script>
+{% endblock %}

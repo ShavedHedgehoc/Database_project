@@ -1,19 +1,65 @@
 import pandas as pd
 import os
-import magic
+# import magic
 import openpyxl
 from django.urls import reverse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import File_upload_form
 from xlrd import XLRDError
+from django.shortcuts import render_to_response
 import xlrd
 from main_app.models import Production, Batch, Marking
 from main_app.models import Apparatus, Container, Conveyor
 from datetime import datetime
-# from excelparser import ExcelParser
 
-# Create your views here.
+
+
+def upload(request):
+    if request.method == "POST":
+        form = File_upload_form(request.POST, request.FILES)
+        if form.is_valid():       
+            excel_file = request.FILES['filename']
+            cc=xl_file_proc(excel_file)[1]
+            # content_type = magic.from_buffer(excel_file.read(), mime=True)            
+            # return HttpResponseRedirect(reverse('success'))
+            return render(request,'success-page.html',{'msg':cc})
+        
+    else:
+        form = File_upload_form()
+    return render(request, 'upload.html', {'form': form})
+
+
+def xl_file_proc(file_obj):
+    headers_to_compare = [  # Список заголовков загружаемого файла
+        "date",  # (используется для проверки назначения файла и размерности)
+        "marking",
+        "batch",
+        "plan",
+        "apparatus",
+        "container",
+        "conveyor",
+    ]
+    xl = pd.ExcelFile(file_obj)
+    sh = xl.sheet_names[0]
+    r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
+    if r_df is not None:
+            df_count = len(r_df.index)
+            df_headers = list(r_df.columns.values)
+            """ Проверяем, совпадают ли заголовки с контрольными.
+            При видимом совпадении заголовков, но при наличии лишнего столбца,
+            в df_headers присутствует лишний, пустой заголовок, по этому,
+            условие не выполняется"""
+            if df_headers != headers_to_compare:
+                r_df = None
+                err_msg = "Заголовки таблицы не совпадают с контрольными"
+            else:
+                if df_count == 0:
+                    r_df = None
+                    err_msg = "В файле нет данных, кроме заголовка"
+                else:
+                    err_msg = "Pass"
+    return r_df, err_msg
 
 
 def get_date(date_str):  # Функция для преобразования даты из DataFrame(str)
@@ -80,42 +126,23 @@ def rx(excel_file):
     r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
     return r_df
 
-def upload(request):
-    if request.method == "POST":
-        form = File_upload_form(request.POST, request.FILES)
-        if form.is_valid():
-            excel_file = request.FILES['filename']
-            content_type = magic.from_buffer(excel_file.read(), mime=False)
-            # r_df=rx(excel_file)
-            # xl = pd.ExcelFile(excel_file)
-            # sh = xl.sheet_names[0]
-            # r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
-            # # wb = openpyxl.load_workbook(excel_file)
-            # return render(request, 'success-page.html')
-            context = {'form': form, 'msg':content_type}
-            return render(request, 'upload.html', context)
-            
-            
-    else:
-        form = File_upload_form()
-        context = {'form': form}
-        return render(request, 'upload.html', context)
 
 
-def uploadfile1(filename):
-    BASE_DIR = os.path.split(__file__)
-    destination = os.path.join(BASE_DIR[0], filename.name)
-    with open(destination, 'wb+') as dest:
-        for chunk in filename:
-            dest.write(chunk)
 
-    return HttpResponseRedirect(reverse('success'))
+# def uploadfile1(filename):
+#     BASE_DIR = os.path.split(__file__)
+#     destination = os.path.join(BASE_DIR[0], filename.name)
+#     with open(destination, 'wb+') as dest:
+#         for chunk in filename:
+#             dest.write(chunk)
+
+#     return HttpResponseRedirect(reverse('success'))
 
 
-def uploadfile(request, filename):
+# def uploadfile(request, filename):
 
-    df = read_xl_file(r'D:\Project\Database_project\upload\1.xlsm')
-    # if df[1] != "Pass":
+#     df = read_xl_file(r'D:\Project\Database_project\upload\1.xlsm')
+#     # if df[1] != "Pass":
     #     context = {'msg': df[1]}
     #     return render(request, 'err-page.html', context)
     # else:
