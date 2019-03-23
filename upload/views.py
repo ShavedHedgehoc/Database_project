@@ -14,17 +14,16 @@ from main_app.models import Apparatus, Container, Conveyor
 from datetime import datetime
 
 
-
 def upload(request):
     if request.method == "POST":
         form = File_upload_form(request.POST, request.FILES)
-        if form.is_valid():       
+        if form.is_valid():
             excel_file = request.FILES['filename']
-            cc=xl_file_proc(excel_file)[1]
-            # content_type = magic.from_buffer(excel_file.read(), mime=True)            
+            cc = xl_file_proc(excel_file)[1]
+            # content_type = magic.from_buffer(excel_file.read(), mime=True)
             # return HttpResponseRedirect(reverse('success'))
-            return render(request,'success-page.html',{'msg':cc})
-        
+            return render(request, 'success-page.html', {'msg': cc})
+
     else:
         form = File_upload_form()
     return render(request, 'upload.html', {'form': form})
@@ -44,21 +43,21 @@ def xl_file_proc(file_obj):
     sh = xl.sheet_names[0]
     r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
     if r_df is not None:
-            df_count = len(r_df.index)
-            df_headers = list(r_df.columns.values)
-            """ Проверяем, совпадают ли заголовки с контрольными.
+        df_count = len(r_df.index)
+        df_headers = list(r_df.columns.values)
+        """ Проверяем, совпадают ли заголовки с контрольными.
             При видимом совпадении заголовков, но при наличии лишнего столбца,
             в df_headers присутствует лишний, пустой заголовок, по этому,
             условие не выполняется"""
-            if df_headers != headers_to_compare:
+        if df_headers != headers_to_compare:
+            r_df = None
+            err_msg = "Заголовки таблицы не совпадают с контрольными"
+        else:
+            if df_count == 0:
                 r_df = None
-                err_msg = "Заголовки таблицы не совпадают с контрольными"
+                err_msg = "В файле нет данных, кроме заголовка"
             else:
-                if df_count == 0:
-                    r_df = None
-                    err_msg = "В файле нет данных, кроме заголовка"
-                else:
-                    err_msg = "Pass"
+                err_msg = "Pass"
     return r_df, err_msg
 
 
@@ -120,13 +119,13 @@ def read_xl_file(r_file):
                 else:
                     err_msg = "Pass"
     return r_df, err_msg
+
+
 def rx(excel_file):
     xl = pd.ExcelFile(excel_file)
     sh = xl.sheet_names[0]
     r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
     return r_df
-
-
 
 
 # def uploadfile1(filename):
