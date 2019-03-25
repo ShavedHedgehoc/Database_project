@@ -14,15 +14,22 @@ from main_app.models import Apparatus, Container, Conveyor
 from datetime import datetime
 
 
-
 def upload(request):
     if request.method == "POST":
         form = File_upload_form(request.POST, request.FILES)
-        if form.is_valid():       
+        if form.is_valid():
             excel_file = request.FILES['filename']
+<<<<<<< HEAD
             cc = xl_file_proc(excel_file)[1]            
             return render(request, 'success-page.html', {'msg':cc})
         
+=======
+            cc = xl_file_proc(excel_file)[1]
+            # content_type = magic.from_buffer(excel_file.read(), mime=True)
+            # return HttpResponseRedirect(reverse('success'))
+            return render(request, 'success-page.html', {'msg': cc})
+
+>>>>>>> 4f555f5428b4c4bf30e3286ae902e1aec982744a
     else:
         form = File_upload_form()
     return render(request, 'upload.html', {'form': form})
@@ -42,21 +49,29 @@ def xl_file_proc(file_obj):
     sh = xl.sheet_names[0]
     r_df = pd.read_excel(xl, sheet_name = sh, dtype = str)
     if r_df is not None:
+<<<<<<< HEAD
             df_count = len(r_df.index)
             df_headers = list(r_df.columns.values)
             """ Проверяем, совпадают ли заголовки с контрольными.
             При видимом совпадении заголовков, но при наличии лишнего столбца, 
             в df_headers присутствует лишний, пустой заголовок, по этому, 
+=======
+        df_count = len(r_df.index)
+        df_headers = list(r_df.columns.values)
+        """ Проверяем, совпадают ли заголовки с контрольными.
+            При видимом совпадении заголовков, но при наличии лишнего столбца,
+            в df_headers присутствует лишний, пустой заголовок, по этому,
+>>>>>>> 4f555f5428b4c4bf30e3286ae902e1aec982744a
             условие не выполняется"""
-            if df_headers != headers_to_compare:
+        if df_headers != headers_to_compare:
+            r_df = None
+            err_msg = "Заголовки таблицы не совпадают с контрольными"
+        else:
+            if df_count == 0:
                 r_df = None
-                err_msg = "Заголовки таблицы не совпадают с контрольными"
+                err_msg = "В файле нет данных, кроме заголовка"
             else:
-                if df_count == 0:
-                    r_df = None
-                    err_msg = "В файле нет данных, кроме заголовка"
-                else:
-                    err_msg = "Pass"
+                err_msg = "Pass"
     return r_df, err_msg
 
 
@@ -69,6 +84,7 @@ def get_date(date_str):  # Функция для преобразования д
     return short_date
 
 
+<<<<<<< HEAD
 # def read_xl_file(r_file):
 #     """ Функция возвращает список, состоящий из DataFrame и кода ошибки.
 #     Анализируется только тип файла, заголовки и рамерность полученной
@@ -123,8 +139,64 @@ def get_date(date_str):  # Функция для преобразования д
 #     sh = xl.sheet_names[0]
 #     r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
 #     return r_df
+=======
+def read_xl_file(r_file):
+    """ Функция возвращает список, состоящий из DataFrame и кода ошибки.
+    Анализируется только тип файла, заголовки и рамерность полученной
+    матрицы данных. Наличие пустых строк и пустых значений - в другой функции.
+    В случае ошибки - DataFrame = None, err_msg - сообщение для вывода
+    на страницу. При успешной загрузке - err_msg = Pass """
+    headers_to_compare = [  # Список заголовков загружаемого файла
+        "date",  # (используется для проверки назначения файла и размерности)
+        "marking",
+        "batch",
+        "plan",
+        "apparatus",
+        "container",
+        "conveyor"
+    ]
+    try:
+        # Пытаемся переименовать файл, если файл открыт - получаем IOError
+        os.rename(r_file, 'nameforisopenedcheck.xlsx')
+        os.rename('nameforisopenedcheck.xlsx', r_file)
+        xl = pd.ExcelFile(r_file)
+        sh = xl.sheet_names[0]
+        r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
+    except FileNotFoundError:  # Переданного файла не существует
+        r_df = None
+        err_msg = "Файла не существует"
+    except XLRDError:  # Попытка открыть не-Excel-файл с помощью XLRD
+        r_df = None
+        err_msg = "Файл не является файлом .xls .xlsx"
+    except IOError:  # Файл где-то открыт
+        r_df = None
+        err_msg = "Файл открыт. Закройте файл и попробуйте еще раз"
+    finally:
+        if r_df is not None:
+            df_count = len(r_df.index)
+            df_headers = list(r_df.columns.values)
+            """ Проверяем, совпадают ли заголовки с контрольными.
+            При видимом совпадении заголовков, но при наличии лишнего столбца,
+            в df_headers присутствует лишний, пустой заголовок, по этому,
+            условие не выполняется"""
+            if df_headers != headers_to_compare:
+                r_df = None
+                err_msg = "Заголовки таблицы не совпадают с контрольными"
+            else:
+                if df_count == 0:
+                    r_df = None
+                    err_msg = "В файле нет данных, кроме заголовка"
+                else:
+                    err_msg = "Pass"
+    return r_df, err_msg
 
 
+def rx(excel_file):
+    xl = pd.ExcelFile(excel_file)
+    sh = xl.sheet_names[0]
+    r_df = pd.read_excel(xl, sheet_name=sh, dtype=str)
+    return r_df
+>>>>>>> 4f555f5428b4c4bf30e3286ae902e1aec982744a
 
 
 # def uploadfile1(filename):
