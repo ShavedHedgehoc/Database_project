@@ -16,10 +16,14 @@ Including another URLconf
 from django.urls import path
 from django.conf.urls import url
 from . import views as upload_views
+# from upload.views import File_form_view
 
 
 urlpatterns = [    
     url(r'upload/', upload_views.upload, name='upload'),
+    url(r'^prod/$', upload_views.Prod_View.as_view(), name='prod'),
+
+    # url(r'upload/', File_form_view.as_view(), name='upload'),
     # path('success', upload.success, name='success'), 
     # path('uploadfile',upload_views.uploadfile, name='uploadfile'),     
 ]

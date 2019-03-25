@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body %}
+    {% if production_list %}
+    <ul>
+
+      {% for pr in production_list %}
+      <li>
+        {{pr}}
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no books in the library.</p>
+    {% endif %}       
+{% endblock %}

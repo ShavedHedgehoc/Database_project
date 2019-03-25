@@ -2,11 +2,12 @@
 {% load staticfiles %}
 
 {% block body %}
+<div class=container>
 <form class="form-group bg-light was-validated" autocomplete="off" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   <div class="custom-file" id="ff">
     <input type="file" class="custom-file-input" id="id_{{form.filename.name}}" name="{{form.filename.name}}" required>
-    <label class="custom-file-label" for="id_{{form.filename.name}}">Имя файла</label>
+    <label class="custom-file-label" for="id_{{form.filename.name}}">Имя файла</label>    
     <div class="invalid-feedback">
         {% if form.filename.errors %}
         <ol>
@@ -15,14 +16,30 @@
         {% endfor %}
         </ol>
         {% else %}
-        <strong>Пожалуйста, выберите файл для обработки:</strong>
-        
+        <strong>Пожалуйста, выберите файл для обработки:</strong>        
     {% endif %}
       </div>
+      <div class="valid-feedback">
+          {% if form.filename.errors %}          
+          {% else %}
+          <strong>Afqk lkfjaskтки:</strong>        
+      {% endif %}
+        </div>
   </div>
-  <input type="submit" class="btn btn-primary btn-block">
+  <input type="submit" class="btn btn-primary btn-block" value="qweqw">  
+  <input type="submit" class="btn btn-secondary btn-block">  
+  {{ msg|linebreaks }}
 </form>
-{{ msg }}
+</div>
+<table>
+  {% for i in records %}
+  <tr>
+    
+    {{i}}
+    
+  </tr>
+  {%endfor%}
+</table>
 {% endblock %}
 
 {%block add_script %}
